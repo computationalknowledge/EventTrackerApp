@@ -1,0 +1,65 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp17
+{
+    public class Program
+    {
+        static Logger log1;
+        static Activity a;
+        static void Main(string[] args)
+        {
+            GenerateNewEntry("Shopping", 30);
+            GenerateNewEntry("Movie", 20);
+            GenerateNewEntry("Trip", 30);
+
+            DataStructure.OutputData();
+            Console.WriteLine("total cost for activities is {0}", DataStructure.totalCost);
+        }
+
+        static void GenerateNewEntry(string What, float HowMuch)
+        {
+            log1 = new Logger();
+            a = new Activity(What, HowMuch);
+            log1.a = a;
+            log1.when = new DateTime(2020, 4, 21);
+            DataStructure.q1.Enqueue(log1);
+        }
+    }
+
+    public class DataStructure
+    {
+        public static Queue q1 = new Queue();
+        public static float totalCost = 0;
+        public static void OutputData()
+        {
+            foreach(var record in q1)
+            {
+                var output = ((Logger)record).a;
+                Console.WriteLine("{0} {1}", output.name, output.cost);
+                totalCost += output.cost;
+            }
+
+        }
+    }
+    public class Logger
+    {
+        public Activity a;
+        public DateTime when;
+    }
+
+    public class Activity
+    {
+        public String name;
+        public float cost;
+        public Activity(string name, float cost)
+        {
+            this.name = name;
+            this.cost = cost;
+        }
+    }
+}
